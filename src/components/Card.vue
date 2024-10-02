@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import store from '@/store/store.js'
 
 const props = defineProps({
   product: {
@@ -23,7 +24,7 @@ const urlImage = computed(() => {
         <p class="card__price-number">{{ product.price }} руб.</p>
       </div>
       <!--      <img class="card__button" src="/plus.svg" />-->
-      <div class="card__plus">
+      <div class="card__plus" v-if="store.state.isAuthenticated">
         <img src="/plus.svg" />
       </div>
     </div>

@@ -6,22 +6,40 @@ import CardList from '@/components/CardList.vue'
 import Drawer from '@/components/UI/Drawer.vue'
 import Modal from '@/components/UI/Modal.vue'
 import Login from '@/components/Login.vue'
+import store from '@/store/store.js'
+
 
 const products = ref([])
-const modalVisible = ref(false)
+const modalLoginVisible = ref(false)
 const drawerVisible = ref(false)
+// const isAuthenticated = ref(localStorage.isAuthenticated)
+// let userToken = ref(localStorage.userToken || false)
 
-const showModal = () => {
-  modalVisible.value = true
+const showLoginModal = () => {
+  modalLoginVisible.value = true
 }
 
 const showDrawer = () => {
   drawerVisible.value = true
 }
 
+// const login = (token) => {
+//   isAuthenticated.value = true
+//   userToken.value = token
+//   localStorage.isAuthenticated = true
+//   localStorage.userToken = token
+// }
+//
+// const logout = () => {
+//   isAuthenticated.value = false
+//   userToken.value = ''
+//   localStorage.clear()
+// }
+
+
 onMounted(async () => {
   try {
-    const response = await axios.get('http://lifestealer86.ru/public/api-shop/products')
+    const response = await axios.get(store.state.API_URL + 'products')
     const data = response.data.data
     products.value = data
   } catch (err) {
@@ -32,10 +50,13 @@ onMounted(async () => {
 
 <template>
   <div id="app">
-    <MyHeader @click="getProducts" @showModal="showModal" @showDrawer="showDrawer" />
+    <MyHeader
+      @showLoginModal="showLoginModal"
+      @showDrawer="showDrawer" />
     <CardList :products="products"> Каталог товаров</CardList>
-    <Modal v-model:show="modalVisible">
-      <Login/>
+    <Modal v-model:show="modalLoginVisible">
+      <Login
+        @closeModal="modalLoginVisible = false" />
     </Modal>
     <Drawer v-model:show="drawerVisible" />
   </div>

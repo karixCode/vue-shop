@@ -1,7 +1,9 @@
 <script setup>
 import Button from '@/components/UI/Button.vue'
 import DrawerItem from '@/components/UI/DrawerItem.vue'
+import store from '@/store/store.js'
 import { defineEmits } from 'vue'
+import basketStore from '@/store/BasketStore.js'
 
 const props = defineProps({
   show: {
@@ -28,23 +30,26 @@ const closeDrawer = () => {
         </svg>
         <h2 class="drawer__title">Корзина</h2>
       </div>
-      <div class="drawer__list">
-        <DrawerItem />
-        <DrawerItem />
+      <div class="drawer__info" v-if="store.state.basketStore.productsInBasket.length === 0">
+        <h2>Корзина пуста</h2>
       </div>
-      <div class="drawer__bottom">
-        <div class="drawer__row">
-          <span>Итого:</span>
-          <div class="drawer__dash" />
-          <span><b>1000 руб.</b></span>
+      <div class="drawer__content" v-else>
+        <div class="drawer__list">
+          <DrawerItem
+            v-for="product in store.state.basketStore.productsInBasket"
+            :key="product.id"
+            :product="product"
+          />
         </div>
-        <div class="drawer__row">
-          <span>Налог 5%:</span>
-          <div class="drawer__dash" />
-          <span><b>50 руб.</b></span>
+        <div class="drawer__bottom">
+          <div class="drawer__row">
+            <span>Итого:</span>
+            <div class="drawer__dash" />
+            <span><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></span>
+          </div>
+          <Button> Оформить заказ</Button>
         </div>
       </div>
-      <Button> Оформить заказ</Button>
     </div>
   </div>
 </template>
@@ -66,7 +71,7 @@ const closeDrawer = () => {
   top: 0;
   right: 0;
   padding: 30px;
-  height: 100%;
+  height: 100vh;
   width: 400px;
   background-color: #ffffff;
   overflow: hidden;
@@ -91,6 +96,18 @@ const closeDrawer = () => {
 .drawer__back:hover {
   opacity: 1;
   transform: rotate(180deg) translateX(4px);
+}
+
+.drawer__info {
+  margin: auto;
+}
+
+.drawer__content {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .drawer__list {

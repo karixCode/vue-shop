@@ -12,8 +12,6 @@ import store from '@/store/store.js'
 const products = ref([])
 const modalLoginVisible = ref(false)
 const drawerVisible = ref(false)
-// const isAuthenticated = ref(localStorage.isAuthenticated)
-// let userToken = ref(localStorage.userToken || false)
 
 const showLoginModal = () => {
   modalLoginVisible.value = true
@@ -23,25 +21,13 @@ const showDrawer = () => {
   drawerVisible.value = true
 }
 
-// const login = (token) => {
-//   isAuthenticated.value = true
-//   userToken.value = token
-//   localStorage.isAuthenticated = true
-//   localStorage.userToken = token
-// }
-//
-// const logout = () => {
-//   isAuthenticated.value = false
-//   userToken.value = ''
-//   localStorage.clear()
-// }
-
-
 onMounted(async () => {
   try {
     const response = await axios.get(store.state.API_URL + 'products')
     const data = response.data.data
     products.value = data
+
+    setTimeout(async () => await store.dispatch('basketStore/updateProductsInBasket'), 0)
   } catch (err) {
     console.error(err)
   }
@@ -51,12 +37,12 @@ onMounted(async () => {
 <template>
   <div id="app">
     <MyHeader
-      @showLoginModal="showLoginModal"
-      @showDrawer="showDrawer" />
+      @show-login-modal="showLoginModal"
+      @show-drawer="showDrawer" />
     <CardList :products="products"> Каталог товаров</CardList>
     <Modal v-model:show="modalLoginVisible">
       <Login
-        @closeModal="modalLoginVisible = false" />
+        @close-modal="modalLoginVisible = false" />
     </Modal>
     <Drawer v-model:show="drawerVisible" />
   </div>

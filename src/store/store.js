@@ -1,11 +1,12 @@
 import { createStore } from 'vuex';
+import basketStore from '@/store/BasketStore.js'
 
 const store = createStore({
   state() {
     return {
       API_URL: 'http://lifestealer86.ru/api-shop/',
-      isAuthenticated: localStorage.isAuthenticated,
-      userToken: localStorage.userToken || false
+      isAuthenticated: localStorage.isAuthenticated || false,
+      userToken: localStorage.userToken || ''
     };
   },
 
@@ -29,6 +30,10 @@ const store = createStore({
       commit('setAuthentication', false);
       commit('setUserToken', '');
     }
+  },
+
+  modules: {
+    basketStore
   }
 });
 

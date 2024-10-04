@@ -25,7 +25,7 @@ const showDrawer = () => {
   <header class="header">
     <h1 class="header__logo logo">Просто купить</h1>
     <nav class="header__nav" v-if="store.state.isAuthenticated">
-      <a class="header__link" @click.prevent="showDrawer"><b>1205 руб.</b></a>
+      <a class="header__link" @click.prevent="showDrawer"><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></a>
       <a class="header__link" href="" @click.prevent="$router.push(`posts/orders`)"><b>Заказы</b></a>
       <a class="header__link" @click.prevent="store.dispatch('logout')"><b>Выйти</b></a>
     </nav>
@@ -51,7 +51,7 @@ const showDrawer = () => {
 .header__nav {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 30px;
 }
 
 .header__link {

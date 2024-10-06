@@ -5,7 +5,7 @@ import MyHeader from '@/components/UI/MyHeader.vue'
 import CardList from '@/components/CardList.vue'
 import Drawer from '@/components/UI/Drawer.vue'
 import Modal from '@/components/UI/Modal.vue'
-import Login from '@/components/Login.vue'
+import LoginModal from '@/components/LoginAndRegister/LoginModal.vue'
 import store from '@/store/store.js'
 
 const modalLoginVisible = ref(false)
@@ -28,8 +28,7 @@ const showDrawer = () => {
       @show-drawer="showDrawer" />
     <router-view></router-view>
     <Modal v-model:show="modalLoginVisible">
-      <Login
-        @close-modal="modalLoginVisible = false" />
+      <LoginModal />
     </Modal>
     <Drawer v-model:show="drawerVisible" />
   </div>

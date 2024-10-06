@@ -20,8 +20,7 @@ const emit = defineEmits(['update:show']);
 
 const closeDrawer = () => {
   emit('update:show', false);
-  postedOrders. value = false
-
+  postedOrders.value = false
 };
 
 const setOrder = async () => {

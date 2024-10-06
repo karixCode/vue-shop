@@ -1,0 +1,87 @@
+<script setup>
+import { ref } from 'vue'
+import LoginForm from '@/components/LoginAndRegister/LoginForm.vue'
+import SignupForm from '@/components/LoginAndRegister/SignupForm.vue'
+
+const activeTab = ref('login')
+// const showMessageLogin = ref(false)
+
+const setActiveTab = (tab) => {
+  activeTab.value = tab
+  // loginData.login = loginData.password = ''
+  // signupData.name = signupData.login = signupData.password = ''
+  // showMessageLogin.value = false
+}
+</script>
+
+<template>
+  <div class="modal__header">
+    <div
+      :class="['modal__tab', 'modal__login', { modal__active: activeTab === 'login' }]"
+      @click="setActiveTab('login')"
+    >
+      <span>Вход</span>
+    </div>
+    <div
+      :class="['modal__tab', 'modal__signup', { modal__active: activeTab === 'signup' }]"
+      @click="setActiveTab('signup')"
+    >
+      <span>Регистрация</span>
+    </div>
+  </div>
+  <div class="modal__message" :class="{ 'show-block': !showMessageLogin }">
+    <p>Вы успешно зарегестрировались, войдите в аккаунт</p>
+  </div>
+  <LoginForm v-if="activeTab === 'login'" />
+  <SignupForm v-else @set-active-tab="setActiveTab" />
+</template>
+
+<style scoped>
+.modal__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 60px;
+}
+
+.show-block {
+  display: none;
+}
+
+.modal__message {
+  padding: 0 20px;
+  margin-top: 30px;
+}
+
+.modal__message p {
+  text-align: center;
+  width: 100%;
+  border: 2px solid #70953e;
+  border-radius: 14px;
+  background-color: #acd38b;
+  padding: 5px 10px;
+}
+
+.modal__tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6e6e6;
+  box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal__active {
+  background-color: #fff;
+  box-shadow: none;
+}
+
+.modal__login {
+  border-radius: 15px 0 0 0;
+}
+
+.modal__signup {
+  border-radius: 0 15px 0 0;
+}
+</style>

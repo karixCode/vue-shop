@@ -5,7 +5,7 @@ import MyHeader from '@/components/UI/MyHeader.vue'
 import CardList from '@/components/CardList.vue'
 import Drawer from '@/components/UI/Drawer.vue'
 import Modal from '@/components/UI/Modal.vue'
-import Login from '@/components/Login.vue'
+import Login from '@/components/LoginAndRegister/LoginForm.vue'
 import store from '@/store/store.js'
 
 
@@ -19,7 +19,7 @@ onMounted(async () => {
     products.value = response.data.data
 
     if(store.state.isAuthenticated) {
-      setTimeout(async () => await store.dispatch('basketStore/updateProductsInBasket'), 0)
+      await store.dispatch('basketStore/updateProductsInBasket')
       console.log('Товары загружены')
     }
   } catch (err) {

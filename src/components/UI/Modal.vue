@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits } from 'vue'
+import { defineEmits, provide } from 'vue'
 
 const props = defineProps({
   show: {
@@ -13,6 +13,8 @@ const emit = defineEmits(['update:show']);
 const closeModal = () => {
   emit('update:show', false);
 };
+
+provide('closeModal', closeModal);
 </script>
 
 <template>

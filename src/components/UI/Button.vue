@@ -23,4 +23,14 @@
   scale: 1.02;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  scale: none;
+  box-shadow: none;
+}
 </style>

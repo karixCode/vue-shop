@@ -5,7 +5,7 @@ const store = createStore({
   state() {
     return {
       API_URL: 'http://lifestealer86.ru/api-shop/',
-      isAuthenticated: JSON.parse(localStorage.isAuthenticated) || false,
+      isAuthenticated: localStorage.isAuthenticated ? JSON.parse(localStorage.isAuthenticated) : false,
       userToken: localStorage.userToken || ''
     };
   },

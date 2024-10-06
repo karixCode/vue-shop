@@ -8,8 +8,6 @@ import Modal from '@/components/UI/Modal.vue'
 import Login from '@/components/Login.vue'
 import store from '@/store/store.js'
 
-
-const products = ref([])
 const modalLoginVisible = ref(false)
 const drawerVisible = ref(false)
 
@@ -21,17 +19,6 @@ const showDrawer = () => {
   drawerVisible.value = true
 }
 
-onMounted(async () => {
-  try {
-    const response = await axios.get(store.state.API_URL + 'products')
-    const data = response.data.data
-    products.value = data
-
-    setTimeout(async () => await store.dispatch('basketStore/updateProductsInBasket'), 0)
-  } catch (err) {
-    console.error(err)
-  }
-})
 </script>
 
 <template>
@@ -39,7 +26,7 @@ onMounted(async () => {
     <MyHeader
       @show-login-modal="showLoginModal"
       @show-drawer="showDrawer" />
-    <CardList :products="products"> Каталог товаров</CardList>
+    <router-view></router-view>
     <Modal v-model:show="modalLoginVisible">
       <Login
         @close-modal="modalLoginVisible = false" />

@@ -5,15 +5,15 @@ const store = createStore({
   state() {
     return {
       API_URL: 'http://lifestealer86.ru/api-shop/',
-      isAuthenticated: localStorage.isAuthenticated || false,
+      isAuthenticated: JSON.parse(localStorage.isAuthenticated) || false,
       userToken: localStorage.userToken || ''
     };
   },
 
   mutations: {
-    setAuthentication(state, value) {
-      state.isAuthenticated = value;
-      localStorage.isAuthenticated = value;
+    setAuthentication(state, newValue) {
+      state.isAuthenticated = newValue;
+      localStorage.isAuthenticated = newValue;
     },
     setUserToken(state, token) {
       state.userToken = token;

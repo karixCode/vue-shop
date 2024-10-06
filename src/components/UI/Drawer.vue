@@ -2,8 +2,8 @@
 import Button from '@/components/UI/Button.vue'
 import DrawerItem from '@/components/UI/DrawerItem.vue'
 import store from '@/store/store.js'
-import { defineEmits } from 'vue'
-import basketStore from '@/store/BasketStore.js'
+import { defineEmits, ref } from 'vue'
+import axios from 'axios'
 
 const props = defineProps({
   show: {
@@ -12,11 +12,39 @@ const props = defineProps({
   }
 })
 
+const postedOrders = ref(false)
+const isLoading = ref(false)
+const idOrder = ref(0)
+
 const emit = defineEmits(['update:show']);
 
 const closeDrawer = () => {
   emit('update:show', false);
+  postedOrders. value = false
+
 };
+
+const setOrder = async () => {
+  try {
+    isLoading.value = true
+
+    const response = await axios.post(`${store.state.API_URL}order`, null, {
+      headers: {
+        Authorization: `Bearer ${store.state.userToken}`
+      }
+    })
+
+    console.log(response)
+    postedOrders. value = true
+    store.commit('basketStore/setProductsInBasket', [])
+    idOrder.value = response.data.data.order_id
+
+  }catch (error) {
+    console.error(error);
+  }finally {
+    isLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -30,7 +58,13 @@ const closeDrawer = () => {
         </svg>
         <h2 class="drawer__title">Корзина</h2>
       </div>
-      <div class="drawer__info" v-if="store.state.basketStore.productsInBasket.length === 0">
+      <div class="drawer__info" v-if="isLoading">
+        <h2>Загрузка</h2>
+      </div>
+      <div class="drawer__info" v-else-if="store.state.basketStore.productsInBasket.length === 0 && postedOrders">
+        <h2>Вы успешно оформили заказ. ID {{ idOrder }}</h2>
+      </div>
+      <div class="drawer__info" v-else-if="store.state.basketStore.productsInBasket.length === 0">
         <h2>Корзина пуста</h2>
       </div>
       <div class="drawer__content" v-else>
@@ -47,7 +81,7 @@ const closeDrawer = () => {
             <div class="drawer__dash" />
             <span><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></span>
           </div>
-          <Button> Оформить заказ</Button>
+          <Button @click="setOrder"> Оформить заказ</Button>
         </div>
       </div>
     </div>
@@ -99,6 +133,7 @@ const closeDrawer = () => {
 }
 
 .drawer__info {
+  text-align: center;
   margin: auto;
 }
 

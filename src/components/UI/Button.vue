@@ -12,6 +12,7 @@
   background-color: #9dd458;
   border: none;
   outline: none;
+  cursor: pointer;
   border-radius: 15px;
   font-weight: bold;
   font-size: 16px;

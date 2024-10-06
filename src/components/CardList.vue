@@ -1,5 +1,5 @@
 <script setup>
-import Card from '@/components/Card.vue'
+import Card from '@/components/CardItem.vue'
 
 defineProps({
   products: {
@@ -20,7 +20,7 @@ defineProps({
 <style scoped>
 .card-list__title {
   font-size: 32px;
-  margin: 40px 0 30px;
+  margin: 0 0 30px;
 }
 
 .card-list {

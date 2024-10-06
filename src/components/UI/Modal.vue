@@ -26,21 +26,23 @@ const closeModal = () => {
 
 <style scoped>
 .modal {
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 50;
   background: rgba(0, 0, 0, 0.7);
-  position: fixed;
   display: flex;
 }
 
 .modal__content {
   position: relative;
   margin: auto;
+  z-index: 100;
   background: white;
   border-radius: 15px;
-  min-height: 400px;
+  min-height: 300px;
   max-width: 520px;
   width: 100%;
 }

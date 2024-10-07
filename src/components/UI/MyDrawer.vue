@@ -17,12 +17,12 @@ const postedOrders = ref(false)
 const isLoading = ref(false)
 const idOrder = ref(0)
 
-const emit = defineEmits(['update:show']);
+const emit = defineEmits(['update:show'])
 
 const closeDrawer = () => {
-  emit('update:show', false);
+  emit('update:show', false)
   postedOrders.value = false
-};
+}
 
 const setOrder = async () => {
   try {
@@ -33,13 +33,12 @@ const setOrder = async () => {
         Authorization: `Bearer ${store.state.userToken}`
       }
     })
-    postedOrders. value = true
+    postedOrders.value = true
     store.commit('basketStore/setProductsInBasket', [])
     idOrder.value = response.data.data.order_id
-
-  }catch (error) {
-    console.error(error);
-  }finally {
+  } catch (error) {
+    console.error(error)
+  } finally {
     isLoading.value = false
   }
 }
@@ -49,13 +48,16 @@ const setOrder = async () => {
   <div class="overlay" v-if="props.show" @click="closeDrawer">
     <div class="drawer" v-if="props.show" @click.stop>
       <div class="drawer__header">
-        <img class="drawer__back" @click="closeDrawer" src="/arrow-next.svg" alt="arrow-next.svg" />
+        <img class="drawer__back" @click="closeDrawer" src="/src/assets/image/arrow-next.svg" alt="arrow-next.svg" />
         <h2 class="drawer__title">Корзина</h2>
       </div>
       <div class="drawer__info" v-if="isLoading">
         <h2>Загрузка...</h2>
       </div>
-      <div class="drawer__info" v-else-if="store.state.basketStore.productsInBasket.length === 0 && postedOrders">
+      <div
+        class="drawer__info"
+        v-else-if="store.state.basketStore.productsInBasket.length === 0 && postedOrders"
+      >
         <h2>Вы успешно оформили заказ. ID {{ idOrder }}</h2>
         <router-link to="/orders">
           <MyButton class="drawer__info-button" @click="closeDrawer">Перейти к заказам</MyButton>
@@ -78,7 +80,9 @@ const setOrder = async () => {
           <div class="drawer__row">
             <span>Итого:</span>
             <div class="drawer__dash" />
-            <span><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></span>
+            <span
+              ><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></span
+            >
           </div>
           <Button @click="setOrder"> Оформить заказ</Button>
         </div>
@@ -121,9 +125,9 @@ const setOrder = async () => {
 
 .drawer__back {
   transform: rotate(180deg) translateX(0);
-  opacity: .3;
+  opacity: 0.3;
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .drawer__back:hover {
@@ -161,10 +165,12 @@ const setOrder = async () => {
   display: inline-block;
   margin-right: 10px;
 }
+
 .drawer-list-enter-active,
 .drawer-list-leave-active {
-  transition: all .4s ease;
+  transition: all 0.4s ease;
 }
+
 .drawer-list-enter-from,
 .drawer-list-leave-to {
   opacity: 0;

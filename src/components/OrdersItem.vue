@@ -22,13 +22,13 @@ const props = defineProps({
 </template>
 
 <style scoped>
-  .orders__item {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    text-align: center;
-    gap: 10px;
-    width: 100%;
-    border-top: 2px solid #f3f3f3;
-    padding: 20px;
-  }
+.orders__item {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  gap: 10px;
+  width: 100%;
+  border-top: 2px solid #f3f3f3;
+  padding: 20px;
+}
 </style>

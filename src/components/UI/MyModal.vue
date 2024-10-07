@@ -8,19 +8,19 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:show']);
+const emit = defineEmits(['update:show'])
 
 const closeModal = () => {
-  emit('update:show', false);
-};
+  emit('update:show', false)
+}
 
-provide('closeModal', closeModal);
+provide('closeModal', closeModal)
 </script>
 
 <template>
   <div class="modal" v-if="props.show" @click="closeModal">
     <div @click.stop class="modal__content">
-      <img class="modal__cross" src="/cross.svg" alt="cross" @click="closeModal" />
+      <img class="modal__cross" src="/src/assets/image/cross.svg" @click="closeModal" alt="cross"/>
       <slot></slot>
     </div>
   </div>
@@ -58,11 +58,10 @@ provide('closeModal', closeModal);
   cursor: pointer;
   z-index: 20;
   opacity: 20%;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
 }
 
 .modal__cross:hover {
   opacity: 80%;
 }
-
 </style>

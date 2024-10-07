@@ -1,26 +1,24 @@
 <script setup>
 import Button from '@/components/UI/MyButton.vue'
-import { reactive, inject } from 'vue'
+import { inject } from 'vue'
 import axios from 'axios'
 import store from '@/store/store.js'
 
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
 
 const { handleSubmit, errors, defineField } = useForm({
   validationSchema: yup.object({
     login: yup.string().email('Некорректный email').required('Email обязателен'),
-    password: yup.string().required('Пароль обязателен').min(6, 'Пароль должен быть не менее 6 символов'),
-  }),
-});
+    password: yup
+      .string()
+      .required('Пароль обязателен')
+      .min(6, 'Пароль должен быть не менее 6 символов')
+  })
+})
 
-const [loginEmail, emailAttrs] = defineField('login');
-const [loginPassword, passwordAttrs] = defineField('password');
-
-// const loginData = reactive({
-//   login: '',
-//   password: ''
-// })
+const [loginEmail, emailAttrs] = defineField('login')
+const [loginPassword, passwordAttrs] = defineField('password')
 
 const closeModal = inject('closeModal')
 
@@ -28,11 +26,11 @@ const toast = inject('toast')
 
 const submitLogin = handleSubmit(async (values) => {
   try {
-    const { data } = await axios.post('http://lifestealer86.ru/public/api-shop/login', {
+    const { data } = await axios.post(`${store.state.API_URL}login`, {
       email: values.login,
       password: values.password
     })
-    toast.success("Вы успешно вошли в аккаунт!")
+    toast.success('Вы успешно вошли в аккаунт!')
 
     store.dispatch('login', data.data.user_token)
 
@@ -55,7 +53,7 @@ const submitLogin = handleSubmit(async (values) => {
         placeholder="Email"
         v-model="loginEmail"
         v-bind="emailAttrs"
-        :class="{ 'invalid__input': errors.login, 'valid__input': !errors.login && loginEmail}"
+        :class="{ invalid__input: errors.login, valid__input: !errors.login && loginEmail }"
       />
       <span class="modal__errors" v-if="errors.login">{{ errors.login }}</span>
     </label>
@@ -67,7 +65,10 @@ const submitLogin = handleSubmit(async (values) => {
         type="password"
         v-model="loginPassword"
         v-bind="passwordAttrs"
-        :class="{ 'invalid__input': errors.password, 'valid__input': !errors.password && loginPassword}"
+        :class="{
+          invalid__input: errors.password,
+          valid__input: !errors.password && loginPassword
+        }"
       />
       <span class="modal__errors" v-if="errors.password">{{ errors.password }}</span>
     </label>

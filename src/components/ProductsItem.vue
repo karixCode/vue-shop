@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import store from '@/store/store.js'
 
-
 const props = defineProps({
   product: {
     type: Object,
@@ -24,9 +23,12 @@ const urlImage = computed(() => {
         <p class="card__price-text">Цена:</p>
         <p class="card__price-number">{{ product.price }} руб.</p>
       </div>
-      <!--      <img class="card__button" src="/plus.svg" />-->
-      <div @click="store.dispatch('basketStore/addProductToAPI', props.product.id)" class="card__plus" v-if="store.state.isAuthenticated">
-        <img src="/plus.svg" alt="plus"/>
+      <div
+        @click="store.dispatch('basketStore/addProductToAPI', props.product.id)"
+        class="card__plus"
+        v-if="store.state.isAuthenticated"
+      >
+        <img src="/src/assets/image/plus.svg" alt="plus" />
       </div>
     </div>
   </div>
@@ -73,7 +75,7 @@ const urlImage = computed(() => {
 
 .card__plus {
   opacity: 20%;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
 }
 
 .card__plus:hover {

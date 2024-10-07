@@ -1,12 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { ref } from 'vue'
 import MyHeader from '@/components/MyHeader.vue'
-import CardList from '@/components/CardList.vue'
-import Drawer from '@/components/UI/Drawer.vue'
-import Modal from '@/components/UI/Modal.vue'
+import Drawer from '@/components/UI/MyDrawer.vue'
+import Modal from '@/components/UI/MyModal.vue'
 import LoginModal from '@/components/LoginAndRegister/LoginModal.vue'
-import store from '@/store/store.js'
 
 const modalLoginVisible = ref(false)
 const drawerVisible = ref(false)
@@ -18,19 +15,21 @@ const showLoginModal = () => {
 const showDrawer = () => {
   drawerVisible.value = true
 }
-
 </script>
 
 <template>
   <div id="app">
-    <MyHeader
-      @show-login-modal="showLoginModal"
-      @show-drawer="showDrawer" />
-    <router-view></router-view>
-    <Modal v-model:show="modalLoginVisible">
-      <LoginModal />
-    </Modal>
-    <Drawer v-model:show="drawerVisible" />
+    <div class="container">
+      <MyHeader @show-login-modal="showLoginModal" @show-drawer="showDrawer" />
+      <router-view></router-view>
+      <Modal v-model:show="modalLoginVisible">
+        <LoginModal />
+      </Modal>
+      <Drawer v-model:show="drawerVisible" />
+    </div>
+    <footer>
+      &copy;2024
+    </footer>
   </div>
 </template>
 
@@ -42,10 +41,11 @@ const showDrawer = () => {
   font-family: 'Inter', sans-serif;
 }
 
-#app {
-  max-width: 1280px;
+.container {
+  max-width: 1250px;
   margin: 0 auto;
   padding: 0 15px;
+  min-height: calc(100vh - 120px);
 }
 
 a {
@@ -56,5 +56,14 @@ a {
 
 a:hover {
   color: #9dd458;
+}
+
+footer {
+  text-align: center;
+  color: #fff;
+  background-color: #1c1c1c;
+  margin-top: 40px;
+  padding: 30px 0;
+  width: 100%;
 }
 </style>

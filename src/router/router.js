@@ -1,10 +1,10 @@
-import {createRouter, createWebHistory} from "vue-router";
-import Main from "@/pages/Main.vue"
-import Orders from "@/pages/Orders.vue"
+import { createRouter, createWebHistory } from 'vue-router'
+import Main from '@/pages/MainPage.vue'
+import Orders from '@/pages/OrdersPage.vue'
 
-const routes =[
-  {path: '/', component: Main},
-  {path: '/orders', component: Orders},
+const routes = [
+  { path: '/', component: Main },
+  { path: '/orders', component: Orders }
 ]
 
 const router = createRouter({

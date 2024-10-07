@@ -8,13 +8,9 @@ const toast = useToast()
 provide('toast', toast)
 
 const activeTab = ref('login')
-// const showMessageLogin = ref(false)
 
 const setActiveTab = (tab) => {
   activeTab.value = tab
-  // loginData.login = loginData.password = ''
-  // signupData.name = signupData.login = signupData.password = ''
-  // showMessageLogin.value = false
 }
 </script>
 
@@ -32,9 +28,6 @@ const setActiveTab = (tab) => {
     >
       <span>Регистрация</span>
     </div>
-  </div>
-  <div class="modal__message" :class="{ 'show-block': !showMessageLogin }">
-    <p>Вы успешно зарегестрировались, войдите в аккаунт</p>
   </div>
   <LoginForm v-if="activeTab === 'login'" />
   <SignupForm v-else @set-active-tab="setActiveTab" />

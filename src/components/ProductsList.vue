@@ -1,5 +1,5 @@
 <script setup>
-import Card from '@/components/CardItem.vue'
+import Card from '@/components/ProductsItem.vue'
 
 defineProps({
   products: {

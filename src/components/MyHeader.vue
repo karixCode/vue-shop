@@ -1,7 +1,7 @@
 <script setup>
 import { defineEmits, ref } from 'vue'
 import store from '@/store/store.js'
-import Modal from '@/components/UI/Modal.vue'
+import Modal from '@/components/UI/MyModal.vue'
 import Button from '@/components/UI/MyButton.vue'
 import router from '@/router/router.js'
 import { useToast } from 'vue-toastification'
@@ -26,7 +26,6 @@ const logout = () => {
   router.replace('/')
   toast.info('Вы вышли из аккаунта')
 }
-
 </script>
 
 <template>
@@ -35,11 +34,13 @@ const logout = () => {
       <h1 class="header__logo logo">Просто купить</h1>
     </router-link>
     <nav class="header__nav" v-if="store.state.isAuthenticated">
-      <a class="header__link" @click.prevent="showDrawer"><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></a>
-<!--      <a class="header__link" href="" @click.prevent="$router.push(`posts/orders`)"><b>Заказы</b></a>-->
+      <a class="header__link" @click.prevent="showDrawer"
+        ><b>{{ store.getters['basketStore/getSummuryPrice'] }} руб.</b></a
+      >
       <router-link to="/orders"><b>Заказы</b></router-link>
-<!--      <router-link to="/" class="header__link" @click.prevent="store.dispatch('logout')"><b>Выйти</b></router-link>-->
-      <router-link to="" class="header__link" @click="isShowConfirmModal = true"><b>Выйти</b></router-link>
+      <router-link to="" class="header__link" @click="isShowConfirmModal = true"
+        ><b>Выйти</b></router-link
+      >
     </nav>
     <nav class="header__nav" v-else>
       <a class="header__link" @click.prevent="showLoginModal"><b>Войти</b></a>

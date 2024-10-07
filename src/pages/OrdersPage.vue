@@ -5,6 +5,7 @@ import OrdersList from '@/components/OrdersList.vue'
 import { onMounted, ref } from 'vue'
 
 const orders = ref([])
+const isLoading = ref(false)
 
 const getOrders = async () => {
   try {
@@ -14,24 +15,27 @@ const getOrders = async () => {
       }
     })
 
-    console.log('заказы получены')
     orders.value = response.data.data
-    console.log(orders.value)
   } catch (error) {
     console.error(error)
   }
 }
 
-onMounted(() => {
-  getOrders()
+onMounted(async () => {
+  try{
+    isLoading.value = true
+
+    await getOrders()
+  }catch(error){
+
+  } finally {
+    isLoading.value = false
+  }
 })
 </script>
 
 <template>
-  <OrdersList :orders="orders">Оформленные заказы</OrdersList>
+  <OrdersList :is-loading="isLoading" :orders="orders">Оформленные заказы</OrdersList>
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

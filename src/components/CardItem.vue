@@ -26,7 +26,7 @@ const urlImage = computed(() => {
       </div>
       <!--      <img class="card__button" src="/plus.svg" />-->
       <div @click="store.dispatch('basketStore/addProductToAPI', props.product.id)" class="card__plus" v-if="store.state.isAuthenticated">
-        <img src="/plus.svg" />
+        <img src="/plus.svg" alt="plus"/>
       </div>
     </div>
   </div>
@@ -72,12 +72,11 @@ const urlImage = computed(() => {
 }
 
 .card__plus {
-  padding: 10px;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
+  opacity: 20%;
+  transition: opacity .3s;
+}
+
+.card__plus:hover {
+  opacity: 80%;
 }
 </style>

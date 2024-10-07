@@ -22,9 +22,10 @@ const store = createStore({
   },
 
   actions: {
-    login({ commit }, token) {
+    async login({ commit }, token) {
       commit('setAuthentication', true);
       commit('setUserToken', token);
+      await store.dispatch('basketStore/updateProductsInBasket');
     },
     logout({ commit }) {
       commit('setAuthentication', false);

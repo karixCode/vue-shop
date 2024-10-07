@@ -57,6 +57,12 @@ provide('closeModal', closeModal);
   height: 15px;
   cursor: pointer;
   z-index: 20;
+  opacity: 20%;
+  transition: opacity .3s;
+}
+
+.modal__cross:hover {
+  opacity: 80%;
 }
 
 </style>

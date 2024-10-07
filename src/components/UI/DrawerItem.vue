@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue'
 import store from '@/store/store.js'
+import { ref } from 'vue'
 
 const props = defineProps({
   product: {
@@ -9,24 +9,35 @@ const props = defineProps({
   }
 })
 
-const urlImage = computed(() => {
-  return `http://lifestealer86.ru/public/${props.product.image}`
-})
+const quantity = ref(1)
+
+const incrementCount = () => {
+  quantity.value++
+}
+
+const dincrementCount = () => {
+  if (quantity.value > 1) {
+    quantity.value--
+  }
+}
+
 </script>
 
 <template>
   <div class="drawer__item">
-    <div class="drawer__image">
-      <img src="http://lifestealer86.ru/public/img/fe055ca1-0613-4038-a275-2440aff13f8d.webp" />
+    <div class="drawer__counter">
+      <img @click="incrementCount" class="drawer__counter-btn drawer__plus" src="/plus.svg">
+      <p class="drawer__count">{{ quantity }}</p>
+      <img @click="dincrementCount" class="drawer__counter-btn drawer__minus" src="/minus.svg">
     </div>
     <div class="drawer__content">
       <p class="drawer__content-title">{{ props.product.name }}</p>
-      <p class="drawer__price"><b>{{ props.product.price }} руб.</b></p>
+      <p class="drawer__price"><b>{{ props.product.price * quantity }} руб.</b></p>
     </div>
     <div
       class="drawer__cross"
       @click="store.dispatch('basketStore/removeProductFromAPI', props.product.id)">
-      <img src="/cross.svg" />
+      <img src="/close.svg" />
     </div>
   </div>
 </template>
@@ -49,20 +60,26 @@ const urlImage = computed(() => {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 
-  .drawer__image {
-    width: 70px;
-    height: 70px;
-    margin-right: 20px;
+  .drawer__counter {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    margin-right: 20px;
     align-items: center;
+    justify-content: space-between;
   }
 
-  .drawer__image img {
-    width: 100%;
+  .drawer__counter-btn {
+    opacity: 20%;
+    transition: opacity .3s;
+  }
+
+  .drawer__counter-btn:hover {
+    opacity: 80%;
   }
 
   .drawer__content-title {
+    max-width: 155px;
   }
 
   .drawer__price {
@@ -71,13 +88,12 @@ const urlImage = computed(() => {
 
   .drawer__cross {
     position: absolute;
-    padding: 10px;
-    border: 1px solid #dcdcdc;
-    border-radius: 8px;
-    width: 34px;
-    height: 34px;
-    display: flex;
-    align-items: center;
     right: 15px;
+    opacity: 20%;
+    transition: opacity .3s;
+  }
+
+  .drawer__cross:hover {
+    opacity: 80%;
   }
 </style>

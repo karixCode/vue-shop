@@ -1,10 +1,13 @@
 import axios from 'axios'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const basketStore = {
   namespaced: true,
   state() {
     return {
-      productsInBasket: []
+      productsInBasket: [],
     };
   },
 
@@ -21,12 +24,10 @@ const basketStore = {
 
     addProductsToBasket(state, product) {
       state.productsInBasket.push(product);
-      localStorage.productsInBasket = state.productsInBasket;
     },
 
     removeProductsToBasket(state, product) {
       state.productsInBasket = state.productsInBasket.filter(item => item.id !== product.id)
-      localStorage.productsInBasket = state.productsInBasket;
     }
   },
 
@@ -38,11 +39,12 @@ const basketStore = {
             Authorization: `Bearer ${rootState.userToken}`
           }
         })
+        toast.success("Товар успешно добавлен в корзину")
 
         await dispatch('updateProductsInBasket')
-
       }catch (error) {
         console.error(error);
+        toast.error("Произошла ошибка. Попробуйте снова!")
       }
     },
 
@@ -53,10 +55,12 @@ const basketStore = {
              Authorization: `Bearer ${rootState.userToken}`
            }
          })
+         toast.info("Товар удален из корзины")
 
          await dispatch('updateProductsInBasket')
        }catch (error) {
          console.error(error);
+         toast.error("Произошла ошибка. Попробуйте снова!")
        }
 
     },

@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 import LoginForm from '@/components/LoginAndRegister/LoginForm.vue'
 import SignupForm from '@/components/LoginAndRegister/SignupForm.vue'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
+provide('toast', toast)
 
 const activeTab = ref('login')
 // const showMessageLogin = ref(false)

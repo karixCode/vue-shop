@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import MyHeader from '@/components/UI/MyHeader.vue'
+import MyHeader from '@/components/MyHeader.vue'
 import CardList from '@/components/CardList.vue'
 import Drawer from '@/components/UI/Drawer.vue'
 import Modal from '@/components/UI/Modal.vue'

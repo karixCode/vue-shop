@@ -1,6 +1,6 @@
 <script setup>
-import Button from '@/components/UI/Button.vue'
-import { reactive, defineEmits } from 'vue'
+import Button from '@/components/UI/MyButton.vue'
+import { reactive, defineEmits, inject } from 'vue'
 import axios from 'axios'
 
 import { useForm } from 'vee-validate';
@@ -30,6 +30,8 @@ const setActiveTab = (tab) => {
 //   password: ''
 // })
 
+const toast = inject('toast')
+
 const submitSignup = handleSubmit(async (values) => {
   try {
     await axios.post('http://lifestealer86.ru/public/api-shop/signup', {
@@ -40,10 +42,15 @@ const submitSignup = handleSubmit(async (values) => {
 
     // signupData.fio = signupData.login = signupData.password = ''
 
+    toast.success("Вы успешно зарегестрировались! Войдите в аккаунт")
+
     setActiveTab('login')
     // showMessageLogin.value = true
   } catch (err) {
     console.error(err)
+    toast.error(err.response.data.message,)
+  } finally {
+    signupFio.value = signupEmail.value = signupPassword.value = ''
   }
 })
 </script>

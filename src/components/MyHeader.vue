@@ -2,8 +2,11 @@
 import { defineEmits, ref } from 'vue'
 import store from '@/store/store.js'
 import Modal from '@/components/UI/Modal.vue'
-import Button from '@/components/UI/Button.vue'
+import Button from '@/components/UI/MyButton.vue'
 import router from '@/router/router.js'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const isShowConfirmModal = ref(false)
 
@@ -21,6 +24,7 @@ const logout = () => {
   store.dispatch('logout')
   isShowConfirmModal.value = false
   router.replace('/')
+  toast.info('Вы вышли из аккаунта')
 }
 
 </script>

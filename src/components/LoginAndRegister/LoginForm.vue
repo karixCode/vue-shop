@@ -1,5 +1,5 @@
 <script setup>
-import Button from '@/components/UI/Button.vue'
+import Button from '@/components/UI/MyButton.vue'
 import { reactive, inject } from 'vue'
 import axios from 'axios'
 import store from '@/store/store.js'
@@ -24,19 +24,24 @@ const [loginPassword, passwordAttrs] = defineField('password');
 
 const closeModal = inject('closeModal')
 
+const toast = inject('toast')
+
 const submitLogin = handleSubmit(async (values) => {
   try {
     const { data } = await axios.post('http://lifestealer86.ru/public/api-shop/login', {
       email: values.login,
       password: values.password
     })
+    toast.success("Вы успешно вошли в аккаунт!")
 
     store.dispatch('login', data.data.user_token)
 
-    // loginData.login = loginData.password = ''
     closeModal()
   } catch (err) {
     console.error(err)
+    toast.error(err.message)
+  } finally {
+    loginEmail.value = loginPassword.value = ''
   }
 })
 </script>

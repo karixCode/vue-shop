@@ -1,9 +1,10 @@
 <script setup>
-import Button from '@/components/UI/Button.vue'
+import Button from '@/components/UI/MyButton.vue'
 import DrawerItem from '@/components/UI/DrawerItem.vue'
 import store from '@/store/store.js'
 import { defineEmits, ref } from 'vue'
 import axios from 'axios'
+import MyButton from '@/components/UI/MyButton.vue'
 
 const props = defineProps({
   show: {
@@ -32,8 +33,6 @@ const setOrder = async () => {
         Authorization: `Bearer ${store.state.userToken}`
       }
     })
-
-    console.log(response)
     postedOrders. value = true
     store.commit('basketStore/setProductsInBasket', [])
     idOrder.value = response.data.data.order_id
@@ -50,29 +49,30 @@ const setOrder = async () => {
   <div class="overlay" v-if="props.show" @click="closeDrawer">
     <div class="drawer" v-if="props.show" @click.stop>
       <div class="drawer__header">
-        <svg @click="closeDrawer"
-             class="drawer__back" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 7H14.7143" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M8.71436 1L14.7144 7L8.71436 13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+        <img class="drawer__back" @click="closeDrawer" src="/arrow-next.svg" alt="arrow-next.svg" />
         <h2 class="drawer__title">Корзина</h2>
       </div>
       <div class="drawer__info" v-if="isLoading">
-        <h2>Загрузка</h2>
+        <h2>Загрузка...</h2>
       </div>
       <div class="drawer__info" v-else-if="store.state.basketStore.productsInBasket.length === 0 && postedOrders">
         <h2>Вы успешно оформили заказ. ID {{ idOrder }}</h2>
+        <router-link to="/orders">
+          <MyButton class="drawer__info-button" @click="closeDrawer">Перейти к заказам</MyButton>
+        </router-link>
       </div>
       <div class="drawer__info" v-else-if="store.state.basketStore.productsInBasket.length === 0">
         <h2>Корзина пуста</h2>
       </div>
       <div class="drawer__content" v-else>
         <div class="drawer__list">
-          <DrawerItem
-            v-for="product in store.state.basketStore.productsInBasket"
-            :key="product.id"
-            :product="product"
-          />
+          <transition-group name="drawer-list">
+            <DrawerItem
+              v-for="product in store.state.basketStore.productsInBasket"
+              :key="product.id"
+              :product="product"
+            />
+          </transition-group>
         </div>
         <div class="drawer__bottom">
           <div class="drawer__row">
@@ -136,6 +136,10 @@ const setOrder = async () => {
   margin: auto;
 }
 
+.drawer__info-button {
+  margin-top: 30px;
+}
+
 .drawer__content {
   height: 95%;
   display: flex;
@@ -150,6 +154,21 @@ const setOrder = async () => {
   flex-direction: column;
   gap: 20px;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.drawer-list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.drawer-list-enter-active,
+.drawer-list-leave-active {
+  transition: all .4s ease;
+}
+.drawer-list-enter-from,
+.drawer-list-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
 }
 
 .drawer__bottom {

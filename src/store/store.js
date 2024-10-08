@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import basketStore from '@/store/BasketStore.js'
+import axios from 'axios'
 
 const store = createStore({
   state() {
@@ -29,9 +30,20 @@ const store = createStore({
       commit('setUserToken', token)
       await store.dispatch('basketStore/updateProductsInBasket')
     },
-    logout({ commit }) {
-      commit('setAuthentication', false)
-      commit('setUserToken', '')
+
+    async logout({ state, commit }) {
+      try {
+        await axios.get(`${state.API_URL}logout`, {
+          headers: {
+            Authorization: `Bearer ${state.userToken}`
+          }
+        })
+
+        commit('setAuthentication', false)
+        commit('setUserToken', '')
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
 

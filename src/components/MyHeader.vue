@@ -20,11 +20,15 @@ const showDrawer = () => {
   emit('showDrawer')
 }
 
-const logout = () => {
-  store.dispatch('logout')
-  isShowConfirmModal.value = false
-  router.replace('/')
-  toast.info('Вы вышли из аккаунта')
+const logout = async () => {
+  try {
+    await store.dispatch('logout')
+    isShowConfirmModal.value = false
+    router.replace('/')
+    toast.info('Вы вышли из аккаунта')
+  }catch (error) {
+    console.error(error)
+  }
 }
 </script>
 
